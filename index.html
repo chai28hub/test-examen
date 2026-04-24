@@ -3,52 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz DAW - Auto Load</title>
+    <title>Quiz DAW - Personalizado</title>
     <style>
         :root { --primary: #2563eb; --success: #22c55e; --error: #ef4444; --bg: #f8fafc; --text: #1e293b; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-       body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    /* Añadimos la imagen de fondo */
-    background-image: url('PHOTO-2025-01-23-23-02-28.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    
-    color: var(--text);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-}
 
-/* Hacemos que el contenedor principal sea un poco transparente para que se vea el fondo */
-#app {
-    width: 100%;
-    max-width: 500px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.85); /* Blanco con 85% de opacidad */
-    backdrop-filter: blur(5px); /* Efecto de desenfoque al fondo */
-    position: relative;
-}
-        #app { width: 100%; max-width: 500px; height: 100%; display: flex; flex-direction: column; background: white; position: relative; }
-        header { height: 8vh; display: flex; align-items: center; justify-content: space-between; padding: 0 1.2rem; border-bottom: 1px solid #e2e8f0; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-image: url('PHOTO-2025-01-23-23-02-28.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        #app {
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.9); /* Blanco con 90% opacidad para leer bien */
+            backdrop-filter: blur(8px); /* Desenfoque elegante del fondo */
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        header { 
+            height: 8vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 1.2rem; 
+            border-bottom: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
         main { flex: 1; padding: 1.2rem; overflow-y: auto; display: flex; flex-direction: column; }
+        
         .view { display: none; flex-direction: column; width: 100%; animation: fadeIn 0.2s ease; }
         .view.active { display: flex; }
+
         h1 { font-size: 1.3rem; margin-bottom: 1.2rem; }
         .options-grid { display: grid; gap: 0.7rem; width: 100%; }
-        .btn-option { background: white; border: 2px solid #e2e8f0; padding: 1rem; border-radius: 12px; font-size: 0.9rem; text-align: left; cursor: pointer; transition: 0.2s; line-height: 1.3; }
+
+        .btn-option { 
+            background: white; 
+            border: 2px solid #e2e8f0; 
+            padding: 1rem; 
+            border-radius: 12px; 
+            font-size: 0.9rem; 
+            text-align: left; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            line-height: 1.3; 
+        }
+
         .btn-option.correct { border-color: var(--success); background-color: #f0fdf4; color: #166534; font-weight: 600; }
         .btn-option.wrong { border-color: var(--error); background-color: #fef2f2; color: #991b1b; }
-        #explanation-drawer { position: absolute; bottom: 0; left: 0; right: 0; background: #f1f5f9; padding: 1.5rem; border-top: 4px solid var(--primary); transform: translateY(100%); transition: 0.3s ease; z-index: 20; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
+
+        #explanation-drawer { 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: #f1f5f9; 
+            padding: 1.5rem; 
+            border-top: 4px solid var(--primary); 
+            transform: translateY(100%); 
+            transition: 0.3s ease; 
+            z-index: 20; 
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1); 
+        }
+
         #explanation-drawer.show { transform: translateY(0); }
-        .btn-next { width: 100%; padding: 1rem; margin-top: 1rem; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; }
+
+        .btn-next { 
+            width: 100%; 
+            padding: 1rem; 
+            margin-top: 1rem; 
+            border: none; 
+            border-radius: 12px; 
+            background: var(--primary); 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+        }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .stats-card { background: #f8fafc; padding: 0.8rem; border-radius: 10px; margin-bottom: 0.5rem; border-left: 4px solid var(--primary); }
-        .loading { text-align: center; margin-top: 2rem; color: var(--primary); }
+        .loading { text-align: center; margin-top: 2rem; color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
