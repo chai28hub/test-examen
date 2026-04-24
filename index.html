@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz DAW - Personalizado</title>
+    <title>Quiz DAW - Final</title>
     <style>
         :root { --primary: #2563eb; --success: #22c55e; --error: #ef4444; --bg: #f8fafc; --text: #1e293b; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background-image: url('PHOTO-2025-01-23-23-02-28.jpg');
+            /* Usamos el nuevo nombre del archivo */
+            background-image: url('img.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-color: #333; /* Color de respaldo por si tarda en cargar */
             color: var(--text);
             height: 100vh;
             overflow: hidden;
@@ -27,10 +29,11 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: rgba(255, 255, 255, 0.9); /* Blanco con 90% opacidad para leer bien */
-            backdrop-filter: blur(8px); /* Desenfoque elegante del fondo */
+            /* Fondo blanco con transparencia para ver la foto detrás */
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
         }
 
         header { 
@@ -40,14 +43,12 @@
             justify-content: space-between; 
             padding: 0 1.2rem; 
             border-bottom: 1px solid #e2e8f0;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
         }
 
         main { flex: 1; padding: 1.2rem; overflow-y: auto; display: flex; flex-direction: column; }
-        
         .view { display: none; flex-direction: column; width: 100%; animation: fadeIn 0.2s ease; }
         .view.active { display: flex; }
-
         h1 { font-size: 1.3rem; margin-bottom: 1.2rem; }
         .options-grid { display: grid; gap: 0.7rem; width: 100%; }
 
@@ -56,7 +57,7 @@
             border: 2px solid #e2e8f0; 
             padding: 1rem; 
             border-radius: 12px; 
-            font-size: 0.9rem; 
+            font-size: 0.95rem; 
             text-align: left; 
             cursor: pointer; 
             transition: 0.2s; 
@@ -67,32 +68,15 @@
         .btn-option.wrong { border-color: var(--error); background-color: #fef2f2; color: #991b1b; }
 
         #explanation-drawer { 
-            position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background: #f1f5f9; 
-            padding: 1.5rem; 
+            position: absolute; bottom: 0; left: 0; right: 0; 
+            background: #f1f5f9; padding: 1.5rem; 
             border-top: 4px solid var(--primary); 
-            transform: translateY(100%); 
-            transition: 0.3s ease; 
-            z-index: 20; 
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1); 
+            transform: translateY(100%); transition: 0.3s ease; 
+            z-index: 20; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); 
         }
 
         #explanation-drawer.show { transform: translateY(0); }
-
-        .btn-next { 
-            width: 100%; 
-            padding: 1rem; 
-            margin-top: 1rem; 
-            border: none; 
-            border-radius: 12px; 
-            background: var(--primary); 
-            color: white; 
-            font-weight: bold; 
-            cursor: pointer; 
-        }
+        .btn-next { width: 100%; padding: 1rem; margin-top: 1rem; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .loading { text-align: center; margin-top: 2rem; color: var(--primary); font-weight: bold; }
@@ -106,33 +90,22 @@
         </header>
         <main>
             <div id="loading-msg" class="loading">Cargando preguntas...</div>
-
             <section id="view-home" class="view">
-                <h1>Selecciona un Módulo</h1>
+                <h1>Elige un módulo para estudiar:</h1>
                 <div id="subjects-menu" class="options-grid"></div>
-                <button class="btn-option" style="margin-top: 1.5rem; border-style: dashed; text-align: center;" onclick="showProgress()">📊 Mi progreso</button>
             </section>
-
             <section id="view-test" class="view">
                 <p id="enunciado" style="font-weight: 600; margin-bottom: 1.2rem; line-height: 1.4; font-size: 1.1rem;"></p>
                 <div id="options-list" class="options-grid"></div>
             </section>
-
             <section id="view-results" class="view">
                 <h1>Resultados</h1>
                 <div id="score-display" style="text-align: center; font-size: 3rem; font-weight: 800; margin: 1rem 0;"></div>
-                <button class="btn-next" onclick="location.reload()">Volver al inicio</button>
-            </section>
-
-            <section id="view-progress" class="view">
-                <h1>Historial</h1>
-                <div id="progress-list"></div>
-                <button class="btn-next" onclick="showView('view-home')">Cerrar</button>
+                <button class="btn-next" onclick="location.reload()">Cambiar de módulo</button>
             </section>
         </main>
-
         <div id="explanation-drawer">
-            <h3 style="color: var(--primary)">💡 Explicación</h3>
+            <h3 style="color: var(--primary)">💡 Respuesta correcta</h3>
             <p id="explanation-text" style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.4;"></p>
             <button class="btn-next" onclick="nextQuestion()">Siguiente Pregunta</button>
         </div>
@@ -142,32 +115,23 @@
         let rawData = [];
         let state = { questions: [], currentIdx: 0, score: 0, subject: '' };
 
-        // CARGA AUTOMÁTICA DEL JSON
         async function loadQuestions() {
             try {
                 const response = await fetch('preguntas.json');
-                if (!response.ok) throw new Error('No se pudo cargar el archivo JSON');
+                if (!response.ok) throw new Error();
                 rawData = await response.json();
                 document.getElementById('loading-msg').style.display = 'none';
                 initMenu();
                 showView('view-home');
             } catch (error) {
-                document.getElementById('loading-msg').innerHTML = `
-                    <p style="color:red">⚠️ Error: No se pudo leer el archivo JSON.</p>
-                    <p style="font-size:0.8rem; color:black; margin-top:10px">
-                        Asegúrate de estar usando un <b>Servidor Local</b> (como Live Server de VS Code) 
-                        y que el archivo se llame <b>preguntas.json</b>.
-                    </p>`;
-                console.error(error);
+                document.getElementById('loading-msg').innerHTML = "⚠️ Sube el archivo preguntas.json a GitHub";
             }
         }
 
         function initMenu() {
             const subjects = [...new Set(rawData.map(q => q.asignatura))];
-            const menu = document.getElementById('subjects-menu');
-            menu.innerHTML = subjects.map(s => `
+            document.getElementById('subjects-menu').innerHTML = subjects.map(s => `
                 <button class="btn-option" onclick="startTest('${s}')">
-                    <span style="display:block; font-size: 0.7rem; color: var(--primary); margin-bottom: 4px;">MÓDULO</span>
                     <strong>${s.replace(/_/g, ' ')}</strong>
                 </button>
             `).join('');
@@ -216,26 +180,13 @@
             showView('view-results');
             document.getElementById('progress-counter').innerText = "";
             document.getElementById('score-display').innerText = `${state.score} / ${state.questions.length}`;
-            const stats = JSON.parse(localStorage.getItem('quiz_stats') || '[]');
-            stats.push({ sub: state.subject, score: state.score, total: state.questions.length, date: new Date().toLocaleDateString() });
-            localStorage.setItem('quiz_stats', JSON.stringify(stats));
-        }
-
-        function showProgress() {
-            showView('view-progress');
-            const stats = JSON.parse(localStorage.getItem('quiz_stats') || '[]');
-            document.getElementById('progress-list').innerHTML = stats.reverse().map(s => `
-                <div class="stats-card"><strong>${s.sub}</strong>: ${s.score}/${s.total} <small>(${s.date})</small></div>
-            `).join('') || '<p style="text-align:center">No hay datos aún.</p>';
         }
 
         function showView(id) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            const target = document.getElementById(id);
-            if(target) target.classList.add('active');
+            document.getElementById(id).classList.add('active');
         }
 
-        // Arrancamos cargando el JSON externo
         loadQuestions();
     </script>
 </body>
